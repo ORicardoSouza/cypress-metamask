@@ -15,7 +15,7 @@ Antes de começar, certifique-se de ter o seguinte instalado em seu sistema:
 
 Abra o terminal e navegue até o diretório raiz do seu projeto. Em seguida, execute o seguinte comando para instalar o pacote `cypress-metamask`:
 
-```
+```jS
 npm install cypress-metamask
 ```
 
@@ -29,7 +29,7 @@ Para conectar o Metamask com o Cypress, você precisará fornecer algumas inform
 
 3. No arquivo `cypress.json`, adicione a seguinte configuração:
 
-```
+```json
 {
   "env": {
     "METAMASK_SEED_PHRASE": "<sua frase-semente do metamask>",
@@ -45,7 +45,7 @@ Certifique-se de substituir `<sua frase-semente do metamask>`, `<sua senha do me
 
 No arquivo `cypress/support/index.js`, adicione o seguinte código:
 
-```
+```js
 import 'cypress-metamask'
 ```
 
@@ -53,7 +53,7 @@ import 'cypress-metamask'
 
 No arquivo de teste Cypress que você deseja usar o Metamask, adicione o seguinte código:
 
-```
+```js
 describe('Minha descrição de teste', () => {
   beforeEach(() => {
     cy.task('metamaskSetup')
@@ -73,7 +73,7 @@ Certifique-se de substituir `<seu URL de teste>` pelo URL correto da sua aplica�
 
 Finalmente, execute seus testes Cypress usando o seguinte comando:
 
-```
+```js
 npx cypress run
 ```
 
