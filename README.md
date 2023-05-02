@@ -1,68 +1,84 @@
-# Como conectar Metamask com Cypress
+# Como conectar o Metamask com o Cypress
 
-Este é um guia passo a passo sobre como conectar o Metamask com o Cypress, para que você possa testar sua aplicação Web3 usando o Cypress. 
+Este guia irá ajudá-lo a conectar o Metamask com o Cypress para que você possa testar sua aplicação web baseada em blockchain.
 
 ## Pré-requisitos
 
-- [Metamask](https://metamask.io/) instalado e configurado corretamente em seu navegador.
-- [Cypress](https://www.cypress.io/) instalado em seu projeto.
+Antes de começar, certifique-se de ter o seguinte instalado em seu sistema:
 
-## Instalação do Cypress Metamask
+- Node.js
+- npm
+- Metamask
+- Cypress
 
-1. Instale o pacote `cypress-metamask` usando o npm:
+## Passo 1: Instalar o pacote `cypress-metamask`
+
+Abra o terminal e navegue até o diretório raiz do seu projeto. Em seguida, execute o seguinte comando para instalar o pacote `cypress-metamask`:
 
 ```
 npm install cypress-metamask
 ```
 
-2. Adicione o seguinte código no seu arquivo de suporte do Cypress (normalmente localizado em `cypress/support/index.js`):
+## Passo 2: Configurar o Metamask
 
-```javascript
-import "cypress-metamask/commands";
+Para conectar o Metamask com o Cypress, você precisará fornecer algumas informações de configuração. Para fazer isso, siga as etapas abaixo:
+
+1. Abra o Metamask e crie uma nova conta ou use uma existente.
+
+2. Copie a frase-semente da sua conta Metamask.
+
+3. No arquivo `cypress.json`, adicione a seguinte configuração:
+
+```
+{
+  "env": {
+    "METAMASK_SEED_PHRASE": "<sua frase-semente do metamask>",
+    "METAMASK_PASSWORD": "<sua senha do metamask>",
+    "METAMASK_ACCOUNT_INDEX": "<o índice da sua conta metamask>"
+  }
+}
 ```
 
-## Uso do Cypress Metamask
+Certifique-se de substituir `<sua frase-semente do metamask>`, `<sua senha do metamask>` e `<o índice da sua conta metamask>` pelas informações corretas.
 
-1. Abra o Metamask e faça login na sua conta. Certifique-se de que está conectado à rede correta e possui saldo suficiente para realizar transações.
+## Passo 3: Adicionar o plugin `cypress-metamask` no arquivo de suporte do Cypress
 
-2. Use os comandos do Cypress para interagir com o Metamask, como por exemplo:
+No arquivo `cypress/support/index.js`, adicione o seguinte código:
 
-```javascript
-cy.metamask().request({ method: "eth_requestAccounts" })
-cy.metamask().addToken("Token Address", "Token Symbol", "Token Decimals")
-cy.metamask().getBalance()
+```
+import 'cypress-metamask'
 ```
 
-## Exemplo de teste
+## Passo 4: Escrever seus testes Cypress
 
-Aqui está um exemplo de como você pode escrever um teste usando o Metamask e o Cypress:
+No arquivo de teste Cypress que você deseja usar o Metamask, adicione o seguinte código:
 
-```javascript
-describe("Teste de transferência de token com Metamask", () => {
-  it("Deve transferir o token com sucesso", () => {
-    // Faz login no Metamask
-    cy.metamask().request({ method: "eth_requestAccounts" })
+```
+describe('Minha descrição de teste', () => {
+  beforeEach(() => {
+    cy.task('metamaskSetup')
+  })
 
-    // Adiciona o token ao Metamask
-    cy.metamask().addToken("Token Address", "Token Symbol", "Token Decimals")
-
-    // Seleciona a carteira e faz a transferência
-    cy.get("#carteira").click()
-    cy.get("#quantidade").type("10")
-    cy.get("#endereco").type("Endereço de destino")
-    cy.get("#botao-transferir").click()
-
-    // Confirma a transação no Metamask
-    cy.metamask()
-      .confirmTransaction()
-      .then(() => {
-        // Verifica se o saldo do token foi atualizado corretamente
-        cy.metamask().getBalance().should("equal", "90")
-      })
+  it('Meu primeiro teste', () => {
+    cy.metamaskLogin()
+    cy.visit('<seu URL de teste>')
+    // Faça o que você precisa fazer para testar a sua aplicação
   })
 })
 ```
 
+Certifique-se de substituir `<seu URL de teste>` pelo URL correto da sua aplicação.
+
+## Passo 5: Executar seus testes Cypress
+
+Finalmente, execute seus testes Cypress usando o seguinte comando:
+
+```
+npx cypress run
+```
+
+Isso deve permitir que você conecte o Metamask ao Cypress e execute seus testes automatizados.
+
 ## Conclusão
 
-Com o `cypress-metamask`, você pode facilmente testar sua aplicação Web3 usando o Cypress e o Metamask. Este guia deve fornecer as informações necessárias para ajudá-lo a começar. Se você tiver alguma dúvida ou precisar de mais informações, consulte a documentação oficial do Cypress e do Metamask.
+Espero que este guia tenha sido útil para você conectar o Metamask com o Cypress. Se você tiver alguma dúvida ou problema, não hesite em entrar em contato com a comunidade Cypress ou Metamask para obter ajuda adicional.
