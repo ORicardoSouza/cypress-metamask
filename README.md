@@ -1,5 +1,3 @@
-Claro, aqui está um exemplo de como você pode transformar as instruções que eu forneci em um arquivo README para um projeto que use Cypress e Metamask:
-
 # Como conectar Metamask com Cypress
 
 Este é um guia passo a passo sobre como conectar o Metamask com o Cypress, para que você possa testar sua aplicação Web3 usando o Cypress. 
